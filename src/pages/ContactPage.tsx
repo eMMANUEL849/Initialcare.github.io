@@ -17,7 +17,7 @@ export default function ContactPage() {
     return e
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const errs = validate()
     if (Object.keys(errs).length > 0) { setErrors(errs); return }
@@ -45,9 +45,9 @@ export default function ContactPage() {
             {/* Contact Info */}
             <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="space-y-4">
               {[
-                { icon: <IconPhone className="w-5 h-5" />, label: 'Phone', value: '0330 133 1919', sub: 'Mon–Fri 8am–6pm, Sat 9am–1pm' },
-                { icon: <IconMail className="w-5 h-5" />, label: 'Email', value: 'hello@initialcare.co.uk', sub: 'We respond within 24 hours' },
-                { icon: <IconMapPin className="w-5 h-5" />, label: 'Address', value: 'Unit 5, Greenway Court', sub: 'Bedford Road, Northampton, NN4 7HD' },
+                { icon: <IconPhone className="w-5 h-5" />, label: 'Phone', value: '07729 418001', sub: '02082 900966 · Mon–Fri 8am–6pm' },
+                { icon: <IconMail className="w-5 h-5" />, label: 'Email', value: 'Initialcarehomes@outlook.com', sub: 'We respond within 24 hours' },
+                { icon: <IconMapPin className="w-5 h-5" />, label: 'Address', value: 'One, Elmfield Park', sub: 'Bromley, England, BR1 1LU' },
               ].map((item) => (
                 <div key={item.label} className="bg-white rounded-2xl p-5 flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-[#EBF2EE] flex items-center justify-center text-[#7BA38C] flex-shrink-0">{item.icon}</div>
@@ -63,7 +63,7 @@ export default function ContactPage() {
               <div className="bg-[#EBF2EE] rounded-2xl h-48 flex items-center justify-center">
                 <div className="text-center">
                   <IconMapPin className="w-8 h-8 text-[#7BA38C] mx-auto mb-2" />
-                  <p className="text-xs text-[#7A6E62]">Northampton, NN4 7HD</p>
+                  <p className="text-xs text-[#7A6E62]">Bromley, England, BR1 1LU</p>
                 </div>
               </div>
             </motion.div>

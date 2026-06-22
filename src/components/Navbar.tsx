@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { IconMenu, IconX, IconHeart } from '@/icons'
+import { IconMenu, IconX, IconHeart, IconUser } from '@/icons'
 
 const navLinks = [
   { label: 'Our Services', href: '/services' },
@@ -68,6 +68,17 @@ export default function Navbar() {
           {/* CTA + Mobile Toggle */}
           <div className="flex items-center gap-3">
             <Link
+              to="/login"
+              className={`hidden sm:flex items-center justify-center w-10 h-10 rounded-full border transition-colors ${
+                location.pathname === '/login' || location.pathname === '/register'
+                  ? 'border-[#7BA38C] text-[#7BA38C] bg-[#EBF2EE]'
+                  : 'border-[#D8D2C8] text-[#3A3028] hover:border-[#7BA38C] hover:text-[#7BA38C]'
+              }`}
+              aria-label="Sign In"
+            >
+              <IconUser className="w-4.5 h-4.5" />
+            </Link>
+            <Link
               to="/request-care"
               className="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-[#7BA38C] text-white hover:bg-[#5E8A72] transition-colors"
               aria-label="Request Care"
@@ -109,12 +120,24 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                to="/request-care"
-                className="mt-2 px-4 py-3 rounded-full bg-[#7BA38C] text-white text-sm font-bold text-center hover:bg-[#5E8A72] transition-colors"
-              >
-                Request Care
-              </Link>
+              <div className="mt-2 flex flex-col gap-2">
+                <Link
+                  to="/login"
+                  className={`px-4 py-3 rounded-full border text-sm font-bold text-center transition-colors ${
+                    location.pathname === '/login' || location.pathname === '/register'
+                      ? 'border-[#7BA38C] text-[#7BA38C] bg-[#EBF2EE]'
+                      : 'border-[#D8D2C8] text-[#3A3028] hover:border-[#7BA38C] hover:text-[#7BA38C]'
+                  }`}
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/request-care"
+                  className="px-4 py-3 rounded-full bg-[#7BA38C] text-white text-sm font-bold text-center hover:bg-[#5E8A72] transition-colors"
+                >
+                  Request Care
+                </Link>
+              </div>
             </nav>
           </motion.div>
         )}

@@ -37,7 +37,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: { preventDefault(): void }) => {
     e.preventDefault()
     setError('')
     if (!email || !password) {
@@ -46,11 +46,15 @@ export default function LoginPage() {
     }
     setLoading(true)
     await new Promise(r => setTimeout(r, 900))
-    if (email === 'user@initialcare.co.uk' && password === 'care123') {
+    if (email === 'Initialcarehomes@outlook.com' && password === 'admin123') {
+      sessionStorage.setItem('adminAuth', 'true')
+      setSuccess(true)
+      setTimeout(() => navigate('/admin'), 1400)
+    } else if (email === 'user@initialcare.co.uk' && password === 'care123') {
       setSuccess(true)
       setTimeout(() => navigate('/'), 1400)
     } else {
-      setError('Invalid credentials. Try user@initialcare.co.uk / care123')
+      setError('Invalid email or password.')
     }
     setLoading(false)
   }

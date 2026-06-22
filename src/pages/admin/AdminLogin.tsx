@@ -13,17 +13,16 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: { preventDefault(): void }) => {
     e.preventDefault()
     setError('')
     if (!email || !password) { setError('Please enter your email and password.'); return }
     setLoading(true)
-    // Demo: accept admin@initialcare.co.uk / admin123
     await new Promise((r) => setTimeout(r, 800))
-    if (email === 'admin@initialcare.co.uk' && password === 'admin123') {
+    if (email === 'Initialcarehomes@outlook.com' && password === 'admin123') {
       onLogin()
     } else {
-      setError('Invalid email or password. Try admin@initialcare.co.uk / admin123')
+      setError('Invalid email or password.')
     }
     setLoading(false)
   }
@@ -59,7 +58,7 @@ export default function AdminLogin({ onLogin }: AdminLoginProps) {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@initialcare.co.uk"
+              placeholder="Initialcarehomes@outlook.com"
               className="w-full px-4 py-3 rounded-xl border border-[#D8D2C8] text-sm text-[#3A3028] bg-white placeholder-[#B0A89E] focus:outline-none focus:ring-2 focus:ring-[#7BA38C] transition-all"
             />
           </div>

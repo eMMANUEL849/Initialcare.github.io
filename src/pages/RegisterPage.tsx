@@ -93,7 +93,7 @@ export default function RegisterPage() {
   const set = (field: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm(f => ({ ...f, [field]: e.target.value }))
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError('')
     if (!form.name || !form.email || !form.password || !form.confirm) {

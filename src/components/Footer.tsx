@@ -39,15 +39,15 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-sm text-[#C4B8AC]">
                 <IconPhone className="w-4 h-4 text-[#7BA38C] mt-0.5 flex-shrink-0" />
-                <span>0330 133 1919</span>
+                <span>07729 418001<br />02082 900966</span>
               </li>
               <li className="flex items-start gap-3 text-sm text-[#C4B8AC]">
                 <IconMail className="w-4 h-4 text-[#7BA38C] mt-0.5 flex-shrink-0" />
-                <span>hello@initialcare.co.uk</span>
+                <span>Initialcarehomes@outlook.com</span>
               </li>
               <li className="flex items-start gap-3 text-sm text-[#C4B8AC]">
                 <IconMapPin className="w-4 h-4 text-[#7BA38C] mt-0.5 flex-shrink-0" />
-                <span>Unit 5, Greenway Court,<br />Bedford Road, Northampton,<br />NN4 7HD</span>
+                <span>One, Elmfield Park,<br />Bromley, England,<br />BR1 1LU</span>
               </li>
             </ul>
           </div>

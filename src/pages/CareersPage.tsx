@@ -7,7 +7,7 @@ const jobs = [
     id: 1,
     title: 'Care Assistant',
     type: 'Full-time / Part-time',
-    location: 'Northampton, NN4',
+    location: 'Bromley, BR1',
     desc: 'Join our compassionate team providing personal care and support to clients in their own homes. No experience necessary — full training provided.',
     requirements: ['Caring and compassionate nature', 'Reliable and punctual', 'Full UK driving licence preferred', 'Enhanced DBS check required'],
   },
@@ -15,7 +15,7 @@ const jobs = [
     id: 2,
     title: 'Senior Care Worker',
     type: 'Full-time',
-    location: 'Northampton, NN4',
+    location: 'Bromley, BR1',
     desc: 'Lead and support a team of care assistants while delivering high-quality care to our clients. Minimum 2 years care experience required.',
     requirements: ['NVQ Level 3 in Health & Social Care', 'Minimum 2 years care experience', 'Strong leadership skills', 'Full UK driving licence'],
   },
@@ -23,7 +23,7 @@ const jobs = [
     id: 3,
     title: 'Care Coordinator',
     type: 'Full-time',
-    location: 'Northampton, NN4 (Office-based)',
+    location: 'Bromley, BR1 (Office-based)',
     desc: 'Coordinate care schedules, liaise with clients and families, and support the management team in delivering excellent care services.',
     requirements: ['Experience in care coordination or scheduling', 'Excellent communication skills', 'Proficient in Microsoft Office', 'Organised and detail-oriented'],
   },
@@ -55,7 +55,7 @@ export default function CareersPage() {
     return e
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const errs = validate()
     if (Object.keys(errs).length > 0) { setErrors(errs); return }

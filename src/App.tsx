@@ -25,9 +25,19 @@ function PublicLayout({ children }: { children: React.ReactNode }) {
 }
 
 function AdminRoute() {
-  const [loggedIn, setLoggedIn] = useState(false)
-  if (!loggedIn) return <AdminLogin onLogin={() => setLoggedIn(true)} />
-  return <AdminDashboard onLogout={() => setLoggedIn(false)} />
+  const [loggedIn, setLoggedIn] = useState(() => sessionStorage.getItem('adminAuth') === 'true')
+  if (!loggedIn) return (
+    <AdminLogin onLogin={() => {
+      sessionStorage.setItem('adminAuth', 'true')
+      setLoggedIn(true)
+    }} />
+  )
+  return (
+    <AdminDashboard onLogout={() => {
+      sessionStorage.removeItem('adminAuth')
+      setLoggedIn(false)
+    }} />
+  )
 }
 
 export default function App() {

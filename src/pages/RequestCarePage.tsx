@@ -43,7 +43,7 @@ export default function RequestCarePage() {
     return e
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const errs = validate()
     if (Object.keys(errs).length > 0) { setErrors(errs); return }
@@ -84,7 +84,7 @@ export default function RequestCarePage() {
             We've received your care request and a member of our team will be in touch within 24 hours to discuss your needs.
           </p>
           <p className="text-xs text-[#B0A89E]">
-            If you need urgent assistance, please call us on <strong className="text-[#3A3028]">0330 133 1919</strong>
+            If you need urgent assistance, please call us on <strong className="text-[#3A3028]">07729 418001</strong>
           </p>
         </motion.div>
       </main>
@@ -198,7 +198,7 @@ export default function RequestCarePage() {
             </button>
 
             <p className="text-center text-xs text-[#B0A89E] mt-4">
-              We'll respond within 24 hours. For urgent enquiries call <strong className="text-[#3A3028]">0330 133 1919</strong>
+              We'll respond within 24 hours. For urgent enquiries call <strong className="text-[#3A3028]">07729 418001</strong>
             </p>
           </motion.form>
         </div>
