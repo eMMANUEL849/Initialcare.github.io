@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand Colors — Nature & Wellbeing */
+  --color-linen: #F0EDE6;
+  --color-linen-dark: #E8E3D9;
+  --color-linen-light: #F7F5F1;
+  --color-brown: #3A3028;
+  --color-brown-light: #5C4F3D;
+  --color-sage: #7BA38C;
+  --color-sage-dark: #5E8A72;
+  --color-sage-light: #A8C4B4;
+  --color-sage-pale: #EBF2EE;
+  --color-white: #FFFFFF;
+  --color-cream: #FDFCF9;
+  --color-text-muted: #7A6E62;
+  --color-border: #D8D2C8;
+
+  /* Typography */
+  --font-body: 'Nunito', system-ui, sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+
+  /* Spacing / Sizing */
+  --radius-card: 1rem;
+  --radius-btn: 9999px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-linen);
+  color: var(--color-brown);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
