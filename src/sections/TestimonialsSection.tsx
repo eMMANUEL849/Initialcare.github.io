@@ -168,7 +168,7 @@ export default function TestimonialsSection() {
                 {/* Stars */}
                 <div className="flex gap-1 mb-5">
                   {[...Array(5)].map((_, i) => (
-                    <IconStar key={i} className="w-4 h-4" style={{ color: t.color }} />
+                    <span key={i} style={{ color: t.color }}><IconStar className="w-4 h-4" /></span>
                   ))}
                 </div>
 
@@ -195,7 +195,7 @@ export default function TestimonialsSection() {
                     className="w-8 h-8 rounded-full flex items-center justify-center"
                     style={{ background: t.color + '20' }}
                   >
-                    <IconHeart className="w-3.5 h-3.5" style={{ color: t.color }} />
+                    <span style={{ color: t.color }}><IconHeart className="w-3.5 h-3.5" /></span>
                   </div>
                 </div>
               </motion.div>

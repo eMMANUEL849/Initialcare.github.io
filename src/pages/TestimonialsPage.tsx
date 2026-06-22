@@ -120,7 +120,7 @@ export default function TestimonialsPage() {
                 </div>
                 <div className="flex gap-1 mb-4">
                   {[...Array(t.rating)].map((_, j) => (
-                    <IconStar key={j} className="w-3.5 h-3.5" style={{ color: t.color }} />
+                    <span key={j} style={{ color: t.color }}><IconStar className="w-3.5 h-3.5" /></span>
                   ))}
                 </div>
                 <blockquote className="text-sm text-[#3A3028] leading-relaxed mb-5">"{t.quote}"</blockquote>

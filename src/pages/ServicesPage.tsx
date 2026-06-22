@@ -250,7 +250,7 @@ export default function ServicesPage() {
                   <ul className="space-y-2">
                     {service.details.map((d) => (
                       <li key={d} className="flex items-start gap-2 text-xs text-[#5C4F3D]">
-                        <IconCheck className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" style={{ color: service.accentColor }} />
+                        <span style={{ color: service.accentColor }}><IconCheck className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" /></span>
                         <span>{d}</span>
                       </li>
                     ))}
