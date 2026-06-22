@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import heroImg from '@/assets/hero.png'
+import heroImg from '@/assets/Care7.png'
 import {
   IconHeart, IconMail, IconLock, IconEye, IconEyeOff, IconArrowRight, IconCheck
 } from '@/icons'

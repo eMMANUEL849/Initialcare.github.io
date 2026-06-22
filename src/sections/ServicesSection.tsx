@@ -7,32 +7,52 @@ const services = [
     icon: <IconUser className="w-6 h-6" />,
     title: 'Personal Care',
     desc: 'Support with daily routines while promoting dignity and independence.',
-    img: null,
+    cardBg: 'linear-gradient(135deg, #FFF0F3 0%, #FFD6DE 100%)',
+    iconBg: '#FFB8C6',
+    iconColor: '#C0395A',
+    accentColor: '#E85D75',
+    textColor: '#C0395A',
   },
   {
     icon: <IconUtensils className="w-6 h-6" />,
     title: 'Meal Preparation',
     desc: 'Nutritious, home-cooked meals tailored to your needs and preferences.',
-    img: null,
+    cardBg: 'linear-gradient(135deg, #FFFBF0 0%, #FFE8A3 100%)',
+    iconBg: '#FFD566',
+    iconColor: '#A86200',
+    accentColor: '#D4820A',
+    textColor: '#A86200',
   },
   {
     icon: <IconHome className="w-6 h-6" />,
     title: 'Companionship',
-    desc: 'Friendly support and companionship for a happier day-to-day.',
-    img: null,
+    desc: 'Friendly visits and meaningful connection for a happier day-to-day.',
+    cardBg: 'linear-gradient(135deg, #EBF2EE 0%, #C4DECE 100%)',
+    iconBg: '#A8D4BE',
+    iconColor: '#3A7A5C',
+    accentColor: '#7BA38C',
+    textColor: '#3A7A5C',
     featured: true,
   },
   {
     icon: <IconBroom className="w-6 h-6" />,
     title: 'Household Support',
     desc: 'Help with household tasks to keep your home comfortable and safe.',
-    img: null,
+    cardBg: 'linear-gradient(135deg, #F5F0FF 0%, #DDD0F5 100%)',
+    iconBg: '#C9B8F0',
+    iconColor: '#5E3DAD',
+    accentColor: '#7B5EA7',
+    textColor: '#5E3DAD',
   },
   {
     icon: <IconPlus className="w-6 h-6" />,
     title: 'Specialist Care',
     desc: 'Bespoke support for complex needs, including dementia care.',
-    img: null,
+    cardBg: 'linear-gradient(135deg, #EBF9FA 0%, #B3E8EC 100%)',
+    iconBg: '#88D8E0',
+    iconColor: '#076E80',
+    accentColor: '#0E8A9E',
+    textColor: '#076E80',
   },
 ]
 
@@ -42,8 +62,8 @@ const containerVariants = {
 }
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const } },
 }
 
 export default function ServicesSection() {
@@ -59,10 +79,9 @@ export default function ServicesSection() {
           className="text-center mb-12"
         >
           <div className="inline-flex items-center gap-2 mb-3">
-            <svg className="w-3.5 h-3.5 text-[#7BA38C]" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20C19 20 22 3 22 3c-1 2-8 2-8 2 0-2 2-4 2-4S8 2 8 8c0 2 2 4 2 4s-2 0-2 2c0 1 1 2 1 2" />
-            </svg>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#7BA38C]" />
             <span className="text-xs font-semibold text-[#7BA38C] uppercase tracking-wider">Our Services</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#7BA38C]" />
           </div>
           <h2 className="text-3xl lg:text-4xl font-bold text-[#3A3028] mb-3" style={{ fontFamily: 'Nunito, sans-serif' }}>
             Care that's tailored to you
@@ -84,24 +103,63 @@ export default function ServicesSection() {
             <motion.div
               key={service.title}
               variants={cardVariants}
-              className={`group rounded-2xl overflow-hidden bg-white hover:shadow-lg transition-all duration-300 flex flex-col ${
-                service.featured ? 'lg:scale-105 shadow-md' : ''
-              }`}
+              whileHover={{ y: -8, transition: { duration: 0.25, ease: 'easeOut' } }}
+              className="group rounded-2xl overflow-hidden bg-white flex flex-col cursor-pointer"
+              style={{
+                boxShadow: service.featured
+                  ? `0 4px 24px ${service.accentColor}30`
+                  : '0 1px 4px rgba(0,0,0,0.06)',
+                outline: service.featured ? `2px solid ${service.accentColor}` : undefined,
+              }}
             >
-              {/* Image placeholder with gradient */}
-              <div className="h-36 bg-gradient-to-br from-[#EBF2EE] to-[#D4E8DC] relative overflow-hidden">
-                <div className="absolute inset-0 flex items-end justify-center pb-2">
-                  <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#7BA38C] shadow-sm">
-                    {service.icon}
+              {/* Colored gradient header */}
+              <div
+                className="h-44 relative overflow-hidden flex items-center justify-center"
+                style={{ background: service.cardBg }}
+              >
+                {/* Decorative circles */}
+                <div
+                  className="absolute -top-5 -right-5 w-24 h-24 rounded-full opacity-35"
+                  style={{ background: service.accentColor }}
+                />
+                <div
+                  className="absolute -bottom-8 -left-5 w-20 h-20 rounded-full opacity-20"
+                  style={{ background: service.accentColor }}
+                />
+                <div
+                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full opacity-10"
+                  style={{ background: service.accentColor }}
+                />
+
+                {/* Featured badge */}
+                {service.featured && (
+                  <div
+                    className="absolute top-3 right-3 text-white text-[9px] font-bold px-2.5 py-1 rounded-full shadow"
+                    style={{ background: service.accentColor }}
+                  >
+                    Most Popular
                   </div>
-                </div>
+                )}
+
+                {/* Icon */}
+                <motion.div
+                  whileHover={{ scale: 1.12, rotate: 6 }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 15 }}
+                  className="relative w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg"
+                  style={{ background: service.iconBg, color: service.iconColor }}
+                >
+                  {service.icon}
+                </motion.div>
               </div>
+
+              {/* Content */}
               <div className="p-4 flex flex-col flex-1">
                 <h3 className="font-bold text-[#3A3028] text-sm mb-1.5">{service.title}</h3>
                 <p className="text-xs text-[#7A6E62] leading-relaxed flex-1">{service.desc}</p>
                 <Link
                   to="/services"
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-[#7BA38C] mt-3 hover:gap-2 transition-all"
+                  className="inline-flex items-center gap-1 text-xs font-bold mt-3 group-hover:gap-2 transition-all"
+                  style={{ color: service.textColor }}
                 >
                   Learn more <IconArrowRight className="w-3 h-3" />
                 </Link>
@@ -120,11 +178,11 @@ export default function ServicesSection() {
         >
           <Link
             to="/services"
-            className="inline-flex items-center gap-3 bg-[#3A3028] text-white px-6 py-3.5 rounded-full font-bold text-sm hover:bg-[#5C4F3D] transition-all hover:shadow-lg group"
+            className="inline-flex items-center gap-3 bg-[#3A3028] text-white px-7 py-4 rounded-full font-bold text-sm hover:bg-[#5C4F3D] transition-all hover:shadow-xl group"
           >
             <span>View all services</span>
             <span className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white/30 transition-colors">
-              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
               </svg>
             </span>

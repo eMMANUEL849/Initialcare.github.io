@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import heroImg from '@/assets/hero.png'
+import heroImg from '@/assets/Care.png'
 import {
   IconHeart, IconMail, IconLock, IconEye, IconEyeOff,
   IconUser, IconPhone, IconCheck, IconShield
