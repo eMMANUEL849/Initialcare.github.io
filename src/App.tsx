@@ -11,6 +11,8 @@ import TestimonialsPage from '@/pages/TestimonialsPage'
 import ContactPage from '@/pages/ContactPage'
 import AdminLogin from '@/pages/admin/AdminLogin'
 import AdminDashboard from '@/pages/admin/AdminDashboard'
+import LoginPage from '@/pages/LoginPage'
+import RegisterPage from '@/pages/RegisterPage'
 
 function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -39,6 +41,8 @@ export default function App() {
         <Route path="/careers" element={<PublicLayout><CareersPage /></PublicLayout>} />
         <Route path="/testimonials" element={<PublicLayout><TestimonialsPage /></PublicLayout>} />
         <Route path="/contact" element={<PublicLayout><ContactPage /></PublicLayout>} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/admin" element={<AdminRoute />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
