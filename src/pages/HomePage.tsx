@@ -4,7 +4,7 @@ import { IconHeart, IconCheck } from '@/icons'
 import heroImg from '@/assets/Care.png'
 import HeroSection from '@/sections/HeroSection'
 import ServicesSection from '@/sections/ServicesSection'
-import TestimonialsSection from '@/sections/TestimonialsSection'
+// import TestimonialsSection from '@/sections/TestimonialsSection'
 
 const stats = [
   { value: '500+', label: 'Clients Served', desc: 'Families supported across Bromley' },
@@ -148,7 +148,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <TestimonialsSection />
+      {/* <TestimonialsSection /> */}
 
       {/* Full-width CTA with hero photo */}
       <section className="relative overflow-hidden py-24 lg:py-32">
