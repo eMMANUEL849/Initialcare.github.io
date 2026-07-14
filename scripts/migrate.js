@@ -59,6 +59,14 @@ CREATE TABLE IF NOT EXISTS password_reset_tokens (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS password_reset_tokens_token_hash_idx ON password_reset_tokens (token_hash);
+
+CREATE TABLE IF NOT EXISTS auth_attempts (
+  id SERIAL PRIMARY KEY,
+  scope TEXT NOT NULL,
+  key TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS auth_attempts_scope_key_idx ON auth_attempts (scope, key, created_at);
 `;
 
 const SEED_USERNAME = process.env.ADMIN_USERNAME;

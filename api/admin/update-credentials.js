@@ -1,5 +1,6 @@
 const { getSession, verifyPassword } = require('../../lib/auth');
 const { getAdminById, updateAdminCredentials } = require('../../lib/admin');
+const { recordAttempt, isRateLimited } = require('../../lib/rateLimit');
 
 module.exports = async (req, res) => {
   const session = getSession(req);
@@ -7,6 +8,11 @@ module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const rateKey = 'user:' + session.userId;
+  if (await isRateLimited('update-credentials', rateKey, { windowMinutes: 15, maxAttempts: 5 })) {
+    return res.status(429).json({ error: 'Too many attempts. Please try again later.' });
   }
 
   let body = req.body;
@@ -23,6 +29,7 @@ module.exports = async (req, res) => {
   try {
     const admin = await getAdminById(session.userId);
     if (!admin || !verifyPassword(String(currentPassword), admin.password_hash)) {
+      await recordAttempt('update-credentials', rateKey);
       return res.status(401).json({ error: 'Current password is incorrect.' });
     }
 

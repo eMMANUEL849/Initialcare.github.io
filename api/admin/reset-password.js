@@ -1,10 +1,17 @@
 const { consumeResetToken, updateAdminCredentials } = require('../../lib/admin');
+const { recordAttempt, isRateLimited, getClientIp } = require('../../lib/rateLimit');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).json({ error: 'Method not allowed' });
   }
+
+  const ip = getClientIp(req);
+  if (await isRateLimited('reset-password', ip, { windowMinutes: 60, maxAttempts: 10 })) {
+    return res.status(429).json({ error: 'Too many attempts. Please try again later.' });
+  }
+  await recordAttempt('reset-password', ip);
 
   let body = req.body;
   if (!body || typeof body === 'string') {
