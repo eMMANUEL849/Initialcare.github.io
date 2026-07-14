@@ -47,9 +47,9 @@ CREATE TABLE IF NOT EXISTS password_reset_tokens (
 CREATE INDEX IF NOT EXISTS password_reset_tokens_token_hash_idx ON password_reset_tokens (token_hash);
 `;
 
-const SEED_USERNAME = 'Eleojo';
-const SEED_EMAIL = 'Initialcarehomes@outlook.com';
-const SEED_PASSWORD = 'Y*9#vTQ*ienij2M4';
+const SEED_USERNAME = process.env.ADMIN_USERNAME;
+const SEED_EMAIL = process.env.ADMIN_EMAIL;
+const SEED_PASSWORD = process.env.ADMIN_PASSWORD;
 
 (async () => {
   await pool.query(sql);
@@ -57,11 +57,15 @@ const SEED_PASSWORD = 'Y*9#vTQ*ienij2M4';
 
   const { rows } = await pool.query('SELECT COUNT(*)::int AS count FROM admin_users');
   if (rows[0].count === 0) {
-    await pool.query(
-      'INSERT INTO admin_users (username, email, password_hash) VALUES ($1, $2, $3)',
-      [SEED_USERNAME, SEED_EMAIL, hashPassword(SEED_PASSWORD)]
-    );
-    console.log(`Seeded initial admin user "${SEED_USERNAME}" <${SEED_EMAIL}>.`);
+    if (SEED_USERNAME && SEED_EMAIL && SEED_PASSWORD) {
+      await pool.query(
+        'INSERT INTO admin_users (username, email, password_hash) VALUES ($1, $2, $3)',
+        [SEED_USERNAME, SEED_EMAIL, hashPassword(SEED_PASSWORD)]
+      );
+      console.log(`Seeded initial admin user "${SEED_USERNAME}" <${SEED_EMAIL}>.`);
+    } else {
+      console.warn('Skipping admin seed: ADMIN_USERNAME, ADMIN_EMAIL, and ADMIN_PASSWORD must be set in .env.local.');
+    }
   } else {
     console.log('admin_users already has rows — skipped seeding.');
   }

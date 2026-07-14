@@ -39,16 +39,22 @@ module.exports = async (req, res) => {
       ]
     );
 
-    await sendEmail({
-      to: 'Initialcarehomes@outlook.com',
-      subject: `New enquiry from ${String(name).slice(0, 200)}`,
-      html: `<p><strong>Name:</strong> ${String(name).slice(0, 200)}</p>
+    try {
+      await sendEmail({
+        to: 'Initialcarehomes@outlook.com',
+        subject: `New enquiry from ${String(name).slice(0, 200)}`,
+        html: `<p><strong>Name:</strong> ${String(name).slice(0, 200)}</p>
              <p><strong>Phone:</strong> ${String(phone).slice(0, 50)}</p>
              <p><strong>Email:</strong> ${String(email).slice(0, 200)}</p>
              <p><strong>Enquiring for:</strong> ${enquiringFor ? String(enquiringFor).slice(0, 100) : 'Not provided'}</p>
              <p><strong>Message:</strong><br>${message ? String(message).slice(0, 4000).replace(/\n/g, '<br>') : 'None'}</p>`,
-      text: `Name: ${String(name).slice(0, 200)}\nPhone: ${String(phone).slice(0, 50)}\nEmail: ${String(email).slice(0, 200)}\nEnquiring for: ${enquiringFor ? String(enquiringFor).slice(0, 100) : 'Not provided'}\nMessage: ${message ? String(message).slice(0, 4000) : 'None'}`,
-    });
+        text: `Name: ${String(name).slice(0, 200)}\nPhone: ${String(phone).slice(0, 50)}\nEmail: ${String(email).slice(0, 200)}\nEnquiring for: ${enquiringFor ? String(enquiringFor).slice(0, 100) : 'Not provided'}\nMessage: ${message ? String(message).slice(0, 4000) : 'None'}`,
+      });
+    } catch (emailErr) {
+      // The enquiry is already saved in the database at this point, so a failed
+      // notification email shouldn't be reported to the visitor as a failed submission.
+      console.error('contact notification email failed', emailErr);
+    }
 
     return res.status(200).json({ ok: true });
   } catch (err) {
