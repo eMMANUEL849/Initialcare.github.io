@@ -1,5 +1,5 @@
-const { isAuthenticated } = require('../../lib/auth');
-const { getStats } = require('../../lib/adminQueries');
+const { isAuthenticated } = require('../_lib/auth');
+const { getStats } = require('../_lib/adminQueries');
 
 module.exports = async (req, res) => {
   if (!isAuthenticated(req)) return res.status(401).json({ error: 'Not authenticated' });

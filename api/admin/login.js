@@ -1,6 +1,6 @@
-const { getAdminByIdentifier } = require('../../lib/admin');
-const { verifyPassword, createSessionCookie } = require('../../lib/auth');
-const { recordAttempt, isRateLimited, getClientIp } = require('../../lib/rateLimit');
+const { getAdminByIdentifier } = require('../_lib/admin');
+const { verifyPassword, createSessionCookie } = require('../_lib/auth');
+const { recordAttempt, isRateLimited, getClientIp } = require('../_lib/rateLimit');
 
 const WINDOW_MINUTES = 15;
 const MAX_ATTEMPTS = 5;

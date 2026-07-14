@@ -1,5 +1,5 @@
-const { consumeResetToken, updateAdminCredentials } = require('../../lib/admin');
-const { recordAttempt, isRateLimited, getClientIp } = require('../../lib/rateLimit');
+const { consumeResetToken, updateAdminCredentials } = require('../_lib/admin');
+const { recordAttempt, isRateLimited, getClientIp } = require('../_lib/rateLimit');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {

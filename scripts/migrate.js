@@ -11,7 +11,7 @@ if (fs.existsSync(envPath)) {
   }
 }
 
-const { hashPassword } = require('../lib/auth');
+const { hashPassword } = require('../api/_lib/auth');
 
 const pool = new Pool({ connectionString: process.env.POSTGRES_URL });
 

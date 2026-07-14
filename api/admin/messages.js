@@ -1,5 +1,5 @@
-const { isAuthenticated } = require('../../lib/auth');
-const { listItems, updateStatus, deleteItem } = require('../../lib/adminQueries');
+const { isAuthenticated } = require('../_lib/auth');
+const { listItems, updateStatus, deleteItem } = require('../_lib/adminQueries');
 
 const TABLE = 'enquiries';
 const COLUMNS = ['id', 'name', 'phone', 'email', 'enquiring_for', 'message', 'status', 'created_at'];

@@ -1,6 +1,6 @@
-const { getPool } = require('../lib/db');
-const { sendEmail } = require('../lib/email');
-const { escapeHtml } = require('../lib/sanitize');
+const { getPool } = require('./_lib/db');
+const { sendEmail } = require('./_lib/email');
+const { escapeHtml } = require('./_lib/sanitize');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {

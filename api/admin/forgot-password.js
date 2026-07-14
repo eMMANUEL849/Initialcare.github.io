@@ -1,6 +1,6 @@
-const { getAdminByIdentifier, createPasswordResetToken } = require('../../lib/admin');
-const { sendEmail } = require('../../lib/email');
-const { recordAttempt, isRateLimited, getClientIp } = require('../../lib/rateLimit');
+const { getAdminByIdentifier, createPasswordResetToken } = require('../_lib/admin');
+const { sendEmail } = require('../_lib/email');
+const { recordAttempt, isRateLimited, getClientIp } = require('../_lib/rateLimit');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {

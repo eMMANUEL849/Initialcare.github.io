@@ -1,8 +1,4 @@
 {
-  "rewrites": [
-    { "source": "/lib/:path*", "destination": "/404-not-found" },
-    { "source": "/scripts/:path*", "destination": "/404-not-found" }
-  ],
   "headers": [
     {
       "source": "/(.*)",

@@ -1,5 +1,5 @@
-const { getSession } = require('../../lib/auth');
-const { getAdminById } = require('../../lib/admin');
+const { getSession } = require('../_lib/auth');
+const { getAdminById } = require('../_lib/admin');
 
 module.exports = async (req, res) => {
   const session = getSession(req);

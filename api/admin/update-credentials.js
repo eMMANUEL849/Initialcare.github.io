@@ -1,6 +1,6 @@
-const { getSession, verifyPassword } = require('../../lib/auth');
-const { getAdminById, updateAdminCredentials } = require('../../lib/admin');
-const { recordAttempt, isRateLimited } = require('../../lib/rateLimit');
+const { getSession, verifyPassword } = require('../_lib/auth');
+const { getAdminById, updateAdminCredentials } = require('../_lib/admin');
+const { recordAttempt, isRateLimited } = require('../_lib/rateLimit');
 
 module.exports = async (req, res) => {
   const session = getSession(req);
