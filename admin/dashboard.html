@@ -21,11 +21,49 @@
 
   <nav class="admin-tabs">
     <button type="button" class="admin-tab active" data-tab="enquiries">Enquiries</button>
+    <button type="button" class="admin-tab" data-tab="interests">Career interests</button>
     <button type="button" class="admin-tab" data-tab="settings">Admin settings</button>
   </nav>
 
   <div id="tab-enquiries" class="admin-tab-panel">
-    <div id="admin-content">
+    <form class="filter-bar" id="enquiries-filter">
+      <input type="search" name="q" placeholder="Search name, email, phone, message…">
+      <select name="status">
+        <option value="">All statuses</option>
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+      </select>
+      <label class="filter-date">From <input type="date" name="from"></label>
+      <label class="filter-date">To <input type="date" name="to"></label>
+      <button type="submit" class="btn secondary">Filter</button>
+      <button type="button" class="btn ghost" data-reset>Reset</button>
+    </form>
+    <div id="enquiries-content">
+      <p class="admin-loading">Loading…</p>
+    </div>
+  </div>
+
+  <div id="tab-interests" class="admin-tab-panel" style="display:none;">
+    <form class="filter-bar" id="interests-filter">
+      <input type="search" name="q" placeholder="Search name, email, phone, message…">
+      <select name="role">
+        <option value="">All roles</option>
+        <option value="Domiciliary carer">Domiciliary carer</option>
+        <option value="Live-in carer">Live-in carer</option>
+        <option value="Care coordinator">Care coordinator</option>
+        <option value="Other / not sure">Other / not sure</option>
+      </select>
+      <select name="status">
+        <option value="">All statuses</option>
+        <option value="new">New</option>
+        <option value="contacted">Contacted</option>
+      </select>
+      <label class="filter-date">From <input type="date" name="from"></label>
+      <label class="filter-date">To <input type="date" name="to"></label>
+      <button type="submit" class="btn secondary">Filter</button>
+      <button type="button" class="btn ghost" data-reset>Reset</button>
+    </form>
+    <div id="interests-content">
       <p class="admin-loading">Loading…</p>
     </div>
   </div>
@@ -61,8 +99,6 @@
 
 <script>
 (function () {
-  var contentEl = document.getElementById('admin-content');
-
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -80,7 +116,7 @@
     return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
   }
 
-  function renderChart(daily) {
+  function renderChart(daily, title) {
     var max = Math.max.apply(null, daily.map(function (d) { return d.count; }).concat([1]));
     var bars = daily.map(function (d) {
       var h = Math.round((d.count / max) * 100);
@@ -91,14 +127,14 @@
     var last = daily[daily.length - 1] ? shortDay(daily[daily.length - 1].date) : '';
     return (
       '<div class="chart-card">' +
-      '<h3>Enquiries — last 30 days</h3>' +
+      '<h3>' + esc(title) + '</h3>' +
       '<div class="chart-bars">' + bars + '</div>' +
       '<div class="chart-axis"><span>' + first + '</span><span>' + last + '</span></div>' +
       '</div>'
     );
   }
 
-  function renderCategories(byCategory) {
+  function renderCategories(byCategory, title) {
     var max = Math.max.apply(null, byCategory.map(function (c) { return c.count; }).concat([1]));
     var rows = byCategory.map(function (c) {
       var pct = Math.round((c.count / max) * 100);
@@ -112,16 +148,16 @@
     }).join('');
     return (
       '<div class="chart-card">' +
-      '<h3>Enquiring for</h3>' +
+      '<h3>' + esc(title) + '</h3>' +
       '<div class="category-list">' + (rows || '<p>No data yet.</p>') + '</div>' +
       '</div>'
     );
   }
 
-  function renderStats(stats) {
+  function renderStats(stats, labels) {
     return (
       '<div class="stat-grid">' +
-      '<div class="stat-tile"><span class="num">' + stats.total + '</span><span class="lbl">Total enquiries</span></div>' +
+      '<div class="stat-tile"><span class="num">' + stats.total + '</span><span class="lbl">' + esc(labels.total) + '</span></div>' +
       '<div class="stat-tile"><span class="num">' + stats.last7 + '</span><span class="lbl">Last 7 days</span></div>' +
       '<div class="stat-tile"><span class="num">' + stats.last30 + '</span><span class="lbl">Last 30 days</span></div>' +
       '<div class="stat-tile"><span class="num">' + (stats.total ? Math.round((stats.last7 / 7) * 10) / 10 : 0) + '</span><span class="lbl">Avg. per day (7d)</span></div>' +
@@ -129,54 +165,173 @@
     );
   }
 
-  function renderMessages(messages) {
-    if (!messages.length) {
-      return '<div class="msg-table-wrap"><p class="admin-empty">No enquiries yet.</p></div>';
-    }
-    var rows = messages.map(function (m) {
-      return (
-        '<tr>' +
-        '<td class="nowrap">' + formatDate(m.created_at) + '</td>' +
-        '<td class="nowrap">' + esc(m.name) + '</td>' +
-        '<td class="nowrap"><a href="tel:' + esc(m.phone) + '">' + esc(m.phone) + '</a></td>' +
-        '<td class="nowrap"><a href="mailto:' + esc(m.email) + '">' + esc(m.email) + '</a></td>' +
-        '<td class="nowrap">' + esc(m.enquiring_for || '—') + '</td>' +
-        '<td class="msg-cell">' + esc(m.message || '—') + '</td>' +
-        '</tr>'
-      );
-    }).join('');
+  function statusBadge(status) {
+    var s = status === 'contacted' ? 'contacted' : 'new';
+    var label = s === 'contacted' ? 'Contacted' : 'New';
+    return '<span class="status-badge ' + s + '">' + label + '</span>';
+  }
+
+  function rowActions(id, status) {
+    var next = status === 'contacted' ? 'new' : 'contacted';
+    var nextLabel = status === 'contacted' ? 'Mark as new' : 'Mark as contacted';
     return (
-      '<div class="msg-table-wrap">' +
-      '<table class="msg-table">' +
-      '<thead><tr><th>Received</th><th>Name</th><th>Phone</th><th>Email</th><th>Enquiring for</th><th>Message</th></tr></thead>' +
-      '<tbody>' + rows + '</tbody>' +
-      '</table></div>'
+      '<div class="row-actions">' +
+      '<button type="button" class="btn-tiny" data-action="status" data-id="' + id + '" data-status="' + next + '">' + nextLabel + '</button>' +
+      '<button type="button" class="btn-tiny danger" data-action="delete" data-id="' + id + '">Delete</button>' +
+      '</div>'
     );
   }
 
-  function load() {
-    Promise.all([
-      fetch('/api/admin/stats').then(function (r) { return r.status === 401 ? Promise.reject('auth') : r.json(); }),
-      fetch('/api/admin/messages?limit=100').then(function (r) { return r.status === 401 ? Promise.reject('auth') : r.json(); }),
-    ])
-      .then(function (results) {
-        var stats = results[0];
-        var messagesData = results[1];
-        contentEl.innerHTML =
-          renderStats(stats) +
-          renderChart(stats.daily) +
-          renderCategories(stats.byCategory) +
-          '<h3 style="margin-bottom:1em;">Recent enquiries (' + messagesData.total + ' total)</h3>' +
-          renderMessages(messagesData.messages);
-      })
-      .catch(function (err) {
-        if (err === 'auth') {
-          window.location.href = 'login.html';
-        } else {
-          contentEl.innerHTML = '<p class="admin-empty">Something went wrong loading the dashboard.</p>';
-        }
+  // Generic list + stats panel shared by "Enquiries" and "Career interests".
+  function createPanel(opts) {
+    var contentEl = document.getElementById(opts.contentId);
+    var filterForm = document.getElementById(opts.filterId);
+    var lastQuery = '';
+
+    function buildQuery() {
+      var data = new FormData(filterForm);
+      var params = new URLSearchParams();
+      params.set('limit', '200');
+      data.forEach(function (value, key) {
+        if (value) params.set(key, value);
       });
+      return params.toString();
+    }
+
+    function load() {
+      lastQuery = buildQuery();
+      contentEl.innerHTML = '<p class="admin-loading">Loading…</p>';
+      Promise.all([
+        fetch(opts.statsUrl).then(function (r) { return r.status === 401 ? Promise.reject('auth') : r.json(); }),
+        fetch(opts.listUrl + '?' + lastQuery).then(function (r) { return r.status === 401 ? Promise.reject('auth') : r.json(); }),
+      ])
+        .then(function (results) {
+          var stats = results[0];
+          var listData = results[1];
+          contentEl.innerHTML =
+            renderStats(stats, { total: opts.totalLabel }) +
+            renderChart(stats.daily, opts.chartTitle) +
+            renderCategories(stats.byCategory, opts.categoryTitle) +
+            '<h3 style="margin-bottom:1em;">' + esc(opts.listTitle) + ' (' + listData.total + ' matching)</h3>' +
+            opts.renderTable(listData.messages);
+        })
+        .catch(function (err) {
+          if (err === 'auth') {
+            window.location.href = 'login.html';
+          } else {
+            contentEl.innerHTML = '<p class="admin-empty">Something went wrong loading this tab.</p>';
+          }
+        });
+    }
+
+    contentEl.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      var id = btn.getAttribute('data-id');
+
+      if (btn.getAttribute('data-action') === 'status') {
+        var status = btn.getAttribute('data-status');
+        btn.disabled = true;
+        fetch(opts.listUrl + '?id=' + encodeURIComponent(id), {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ status: status }),
+        }).then(function () { load(); });
+      }
+
+      if (btn.getAttribute('data-action') === 'delete') {
+        if (!window.confirm('Delete this entry? This cannot be undone.')) return;
+        btn.disabled = true;
+        fetch(opts.listUrl + '?id=' + encodeURIComponent(id), { method: 'DELETE' })
+          .then(function () { load(); });
+      }
+    });
+
+    filterForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      load();
+    });
+    filterForm.querySelector('[data-reset]').addEventListener('click', function () {
+      filterForm.reset();
+      load();
+    });
+
+    return { load: load };
   }
+
+  var enquiriesPanel = createPanel({
+    contentId: 'enquiries-content',
+    filterId: 'enquiries-filter',
+    statsUrl: '/api/admin/stats',
+    listUrl: '/api/admin/messages',
+    totalLabel: 'Total enquiries',
+    chartTitle: 'Enquiries — last 30 days',
+    categoryTitle: 'Enquiring for',
+    listTitle: 'Enquiries',
+    renderTable: function (messages) {
+      if (!messages.length) {
+        return '<div class="msg-table-wrap"><p class="admin-empty">No enquiries yet.</p></div>';
+      }
+      var rows = messages.map(function (m) {
+        return (
+          '<tr>' +
+          '<td class="nowrap">' + formatDate(m.created_at) + '</td>' +
+          '<td class="nowrap">' + esc(m.name) + '</td>' +
+          '<td class="nowrap"><a href="tel:' + esc(m.phone) + '">' + esc(m.phone) + '</a></td>' +
+          '<td class="nowrap"><a href="mailto:' + esc(m.email) + '">' + esc(m.email) + '</a></td>' +
+          '<td class="nowrap">' + esc(m.enquiring_for || '—') + '</td>' +
+          '<td class="msg-cell">' + esc(m.message || '—') + '</td>' +
+          '<td class="nowrap">' + statusBadge(m.status) + '</td>' +
+          '<td class="nowrap">' + rowActions(m.id, m.status) + '</td>' +
+          '</tr>'
+        );
+      }).join('');
+      return (
+        '<div class="msg-table-wrap">' +
+        '<table class="msg-table">' +
+        '<thead><tr><th>Received</th><th>Name</th><th>Phone</th><th>Email</th><th>Enquiring for</th><th>Message</th><th>Status</th><th>Actions</th></tr></thead>' +
+        '<tbody>' + rows + '</tbody>' +
+        '</table></div>'
+      );
+    },
+  });
+
+  var interestsPanel = createPanel({
+    contentId: 'interests-content',
+    filterId: 'interests-filter',
+    statsUrl: '/api/admin/interest-stats',
+    listUrl: '/api/admin/interests',
+    totalLabel: 'Total applicants',
+    chartTitle: 'Career interests — last 30 days',
+    categoryTitle: 'Interested in',
+    listTitle: 'Career interests',
+    renderTable: function (messages) {
+      if (!messages.length) {
+        return '<div class="msg-table-wrap"><p class="admin-empty">No career interests yet.</p></div>';
+      }
+      var rows = messages.map(function (m) {
+        return (
+          '<tr>' +
+          '<td class="nowrap">' + formatDate(m.created_at) + '</td>' +
+          '<td class="nowrap">' + esc(m.name) + '</td>' +
+          '<td class="nowrap"><a href="tel:' + esc(m.phone) + '">' + esc(m.phone) + '</a></td>' +
+          '<td class="nowrap"><a href="mailto:' + esc(m.email) + '">' + esc(m.email) + '</a></td>' +
+          '<td class="nowrap">' + esc(m.role || '—') + '</td>' +
+          '<td class="msg-cell">' + esc(m.message || '—') + '</td>' +
+          '<td class="nowrap">' + statusBadge(m.status) + '</td>' +
+          '<td class="nowrap">' + rowActions(m.id, m.status) + '</td>' +
+          '</tr>'
+        );
+      }).join('');
+      return (
+        '<div class="msg-table-wrap">' +
+        '<table class="msg-table">' +
+        '<thead><tr><th>Received</th><th>Name</th><th>Phone</th><th>Email</th><th>Interested in</th><th>Message</th><th>Status</th><th>Actions</th></tr></thead>' +
+        '<tbody>' + rows + '</tbody>' +
+        '</table></div>'
+      );
+    },
+  });
 
   document.getElementById('logout-btn').addEventListener('click', function () {
     fetch('/api/admin/logout', { method: 'POST' }).finally(function () {
@@ -187,8 +342,10 @@
   var tabs = document.querySelectorAll('.admin-tab');
   var panels = {
     enquiries: document.getElementById('tab-enquiries'),
+    interests: document.getElementById('tab-interests'),
     settings: document.getElementById('tab-settings'),
   };
+  var interestsLoaded = false;
   var settingsLoaded = false;
 
   tabs.forEach(function (tab) {
@@ -198,6 +355,10 @@
       Object.keys(panels).forEach(function (key) {
         panels[key].style.display = key === tab.dataset.tab ? 'block' : 'none';
       });
+      if (tab.dataset.tab === 'interests' && !interestsLoaded) {
+        interestsLoaded = true;
+        interestsPanel.load();
+      }
       if (tab.dataset.tab === 'settings' && !settingsLoaded) {
         loadSettings();
       }
@@ -257,7 +418,7 @@
       });
   });
 
-  load();
+  enquiriesPanel.load();
 })();
 </script>
 </body>

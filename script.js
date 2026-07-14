@@ -70,3 +70,54 @@
       });
   });
 })();
+
+// Career interest form — submits to /api/careers, which stores it in the database.
+(function () {
+  var form = document.getElementById('career-form');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var note = form.querySelector('.form-note');
+    var error = form.querySelector('.form-error');
+    var button = form.querySelector('button[type="submit"]');
+
+    note.style.display = 'none';
+    error.style.display = 'none';
+    button.disabled = true;
+    button.textContent = 'Sending…';
+
+    var payload = {
+      name: form.name.value.trim(),
+      phone: form.phone.value.trim(),
+      email: form.email.value.trim(),
+      role: form.role.value,
+      message: form.message.value.trim(),
+      website: form.website.value, // honeypot
+    };
+
+    fetch('/api/careers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+      .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+      .then(function (result) {
+        if (result.ok) {
+          form.reset();
+          note.style.display = 'block';
+        } else {
+          error.textContent = result.data.error || 'Something went wrong. Please try again or call us.';
+          error.style.display = 'block';
+        }
+      })
+      .catch(function () {
+        error.textContent = 'Something went wrong. Please try again or call us.';
+        error.style.display = 'block';
+      })
+      .finally(function () {
+        button.disabled = false;
+        button.textContent = 'Send my interest';
+      });
+  });
+})();

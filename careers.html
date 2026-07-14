@@ -74,24 +74,24 @@
     <div class="reveal section-head center">
       <h2>Register your interest</h2>
     </div>
-    <form class="card" onsubmit="event.preventDefault(); this.querySelector('.form-note').style.display='block';">
+    <form class="card" id="career-form">
       <div class="field-row">
         <div class="field">
           <label for="c-name">Full name</label>
-          <input id="c-name" type="text" required>
+          <input id="c-name" name="name" type="text" required>
         </div>
         <div class="field">
           <label for="c-phone">Phone number</label>
-          <input id="c-phone" type="tel" required>
+          <input id="c-phone" name="phone" type="tel" required>
         </div>
       </div>
       <div class="field">
         <label for="c-email">Email address</label>
-        <input id="c-email" type="email" required>
+        <input id="c-email" name="email" type="email" required>
       </div>
       <div class="field">
         <label for="c-role">Interested in</label>
-        <select id="c-role">
+        <select id="c-role" name="role">
           <option>Domiciliary carer</option>
           <option>Live-in carer</option>
           <option>Care coordinator</option>
@@ -100,10 +100,15 @@
       </div>
       <div class="field">
         <label for="c-msg">Anything you'd like us to know?</label>
-        <textarea id="c-msg" placeholder="Previous experience, availability, area you live in..."></textarea>
+        <textarea id="c-msg" name="message" placeholder="Previous experience, availability, area you live in..."></textarea>
+      </div>
+      <div class="field" style="position:absolute; left:-9999px;" aria-hidden="true">
+        <label for="c-website">Leave this field blank</label>
+        <input id="c-website" name="website" type="text" tabindex="-1" autocomplete="off">
       </div>
       <button type="submit" class="btn brass">Send my interest</button>
-      <p class="form-note" style="display:none; color:var(--forest-deep); font-weight:600;">Thanks — we'll be in touch once this form is connected to our inbox.</p>
+      <p class="form-note" style="display:none; color:var(--forest-deep); font-weight:600;">Thanks — we'll be in touch soon.</p>
+      <p class="form-error" style="display:none; color:#a3372e; font-weight:600;"></p>
     </form>
   </div>
 </section>

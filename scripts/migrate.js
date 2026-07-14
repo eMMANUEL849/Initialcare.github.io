@@ -27,6 +27,20 @@ CREATE TABLE IF NOT EXISTS enquiries (
 );
 CREATE INDEX IF NOT EXISTS enquiries_created_at_idx ON enquiries (created_at DESC);
 
+ALTER TABLE enquiries ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'new' CHECK (status IN ('new', 'contacted'));
+
+CREATE TABLE IF NOT EXISTS career_interests (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  email TEXT NOT NULL,
+  role TEXT,
+  message TEXT,
+  status TEXT NOT NULL DEFAULT 'new' CHECK (status IN ('new', 'contacted')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS career_interests_created_at_idx ON career_interests (created_at DESC);
+
 CREATE TABLE IF NOT EXISTS admin_users (
   id SERIAL PRIMARY KEY,
   username TEXT NOT NULL UNIQUE,
