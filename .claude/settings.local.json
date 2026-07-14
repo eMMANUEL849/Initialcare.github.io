@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv \"Care1.jpg\" \"carer-with-client.jpg\")",
+      "Bash(mv \"ChatGPT Image Jun 29, 2026, 03_16_42 PM.png\" \"mobility-support.png\")",
+      "Bash(mv \"age-cymru-bSXk1lOp8T0-unsplash.jpg\" \"companionship-activities.jpg\")",
+      "Bash(mv \"centre-for-ageing-better-lNTbuoYMSro-unsplash.jpg\" \"independent-living.jpg\")",
+      "Bash(mv \"centre-for-ageing-better-rQJ3xo-0WYE-unsplash.jpg\" \"companionship-visit.jpg\")",
+      "Bash(npm install *)",
+      "Bash(node scripts/migrate.js)",
+      "Bash(node -e ' *)"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" role="img" aria-labelledby="title desc">
+  <title id="title">InitialCare logo</title>
+  <desc id="desc">Stylized InitialCare logo with a caring cross and modern wordmark.</desc>
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f78b4" />
+      <stop offset="100%" stop-color="#4fc3f7" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.18" />
+    </filter>
+  </defs>
+  <rect width="400" height="120" rx="24" fill="#fff" />
+  <g filter="url(#shadow)">
+    <path d="M44 20c-13.8 0-25 11.2-25 25v30c0 13.8 11.2 25 25 25h48c13.8 0 25-11.2 25-25V45c0-13.8-11.2-25-25-25H44zm34 35h-16v16a6 6 0 0 1-12 0V55H34a6 6 0 0 1 0-12h16V27a6 6 0 0 1 12 0v16h16a6 6 0 0 1 0 12z" fill="url(#grad)" />
+    <path d="M102 32l18 56h14l18-56h-14l-3.6 12h-22.7L120 32h-14zm19.8 24l-7.9-26-7.9 26h15.8z" fill="#1d3557" />
+    <path d="M164 32h12l18 44 18-44h12l-22 56h-12L164 32z" fill="#1d3557" />
+    <path d="M230 32h10c12.4 0 22.5 9.9 22.5 22.2 0 12.6-9.9 22.8-22.6 22.8h-10V32zm10.3 36.5c8.1 0 14.4-6.4 14.4-14.3 0-7.9-6.1-14.2-14.4-14.2h-1.8v28.5h1.8z" fill="#1d3557" />
+    <path d="M272 32h38c4.2 0 8.2 1.1 11.6 3.1 3.5 2.1 6.4 5.1 8.2 8.9 1.8 3.8 2.6 8 2.6 12.5 0 4.7-0.9 9.1-2.8 13-1.9 3.8-4.7 6.9-8.4 9-3.7 2.2-8 3.3-12.9 3.3h-38V32zm10.9 40h3.7c6.9 0 12.3-1.6 16-4.7 3.8-3.1 5.8-7.7 5.8-13.8 0-5.9-2-10.3-6-13.4-4-3.1-9.4-4.7-16-4.7h-3.5v36.6z" fill="#1d3557" />
+  </g>
+</svg>
